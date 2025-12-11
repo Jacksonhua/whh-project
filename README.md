@@ -1,3 +1,4 @@
+[TOC]
 # whh-project
 我的项目脚手架
 # 整理常用的依赖，整合自己的dependencies
@@ -139,7 +140,6 @@
 |------|------|----------|
 | `testcontainers.version` | 1.17.6 | TestContainers测试容器 |
 | `mockito.version` | 4.11.0 | Mockito模拟测试框架 |
-
 | `oshi.version` | 6.6.5 | OSHI系统信息获取 |
 
 ---
