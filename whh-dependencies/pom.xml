@@ -79,9 +79,9 @@
 
         <!-- ========== 缓存与消息 ========== -->
         <redisson.version>3.18.0</redisson.version>
-        <jedis.version>4.3.1</jedis.version>
-        <kafka.version>3.3.1</kafka.version>
-        <rabbitmq.version>5.16.0</rabbitmq.version>
+
+
+
         <rocketmq.version>4.9.4</rocketmq.version>
 
         <!-- ========== 特殊功能 ========== -->
@@ -96,7 +96,6 @@
         <jfreechart.version>1.5.3</jfreechart.version>
 
         <!-- 网络 -->
-        <netty.version>4.1.86.Final</netty.version>
         <okhttp.version>4.10.0</okhttp.version>
         <httpclient.version>4.5.13</httpclient.version>
 
@@ -361,23 +360,7 @@
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
-            <dependency>
-                <groupId>redis.clients</groupId>
-                <artifactId>jedis</artifactId>
-                <version>${jedis.version}</version>
-            </dependency>
-
             <!-- 消息队列 -->
-            <dependency>
-                <groupId>org.apache.kafka</groupId>
-                <artifactId>kafka-clients</artifactId>
-                <version>${kafka.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.rabbitmq</groupId>
-                <artifactId>amqp-client</artifactId>
-                <version>${rabbitmq.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
@@ -417,11 +400,6 @@
             </dependency>
 
             <!-- 网络通信 -->
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${netty.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
