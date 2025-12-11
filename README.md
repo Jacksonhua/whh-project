@@ -139,7 +139,7 @@
 |------|------|----------|
 | `testcontainers.version` | 1.17.6 | TestContainers测试容器 |
 | `mockito.version` | 4.11.0 | Mockito模拟测试框架 |
-| `system-rules.version` | 1.20.0 | 系统规则测试工具 |
+
 | `oshi.version` | 6.6.5 | OSHI系统信息获取 |
 
 ---
