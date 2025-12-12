@@ -1,10 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cn.whh</groupId>
+    <groupId>io.github.jacksonhua</groupId>
     <artifactId>whh-dependencies</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <!-- 发送maven中央仓库-->
+<!--    <version>1.0.2</version>-->
+    <!--发送阿里云私服-->
+    <version>1.0.2-SNAPSHOT</version>
     <name>whh project Dependencies</name>
     <description>项目依赖</description>
     <url>http://maven.apache.org</url>
@@ -20,8 +23,11 @@
             <email>asd1194190200@qq.com</email>
         </developer>
     </developers>
+    <!-- SCM信息 -->
     <scm>
-        <url>https://github.com/spring-projects/spring-boot</url>
+        <connection>scm:git:git://github.com/Jacksonhua/whh-project.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Jacksonhua/whh-project.git</developerConnection>
+        <url>https://github.com/Jacksonhua/whh-project</url>
     </scm>
     <properties>
 
@@ -33,6 +39,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>3.2.1</maven-gpg-plugin.version>
 
         <!-- ========== Spring 生态 ========== -->
         <spring-boot.version>2.7.6</spring-boot.version>
@@ -79,7 +88,6 @@
 
         <!-- ========== 缓存与消息 ========== -->
         <redisson.version>3.18.0</redisson.version>
-
 
 
         <rocketmq.version>4.9.4</rocketmq.version>
@@ -286,7 +294,6 @@
             </dependency>
 
 
-
             <!-- JSON Path -->
             <dependency>
                 <groupId>com.jayway.jsonpath</groupId>
@@ -451,12 +458,12 @@
                 <version>${testcontainers.version}</version>
                 <scope>test</scope>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>io.rest-assured</groupId>-->
-<!--                <artifactId>rest-assured</artifactId>-->
-<!--                <version>${rest-assured.version}</version>-->
-<!--                <scope>test</scope>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>io.rest-assured</groupId>-->
+            <!--                <artifactId>rest-assured</artifactId>-->
+            <!--                <version>${rest-assured.version}</version>-->
+            <!--                <scope>test</scope>-->
+            <!--            </dependency>-->
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
@@ -485,12 +492,6 @@
                         <target>${java.version}</target>
                         <encoding>${project.build.sourceEncoding}</encoding>
                         <annotationProcessorPaths>
-                            <!-- Lombok -->
-                            <path>
-                                <groupId>org.projectlombok</groupId>
-                                <artifactId>lombok</artifactId>
-                                <version>${lombok.version}</version>
-                            </path>
                             <!-- MapStruct -->
                             <path>
                                 <groupId>org.mapstruct</groupId>
@@ -531,7 +532,72 @@
                         <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
+                <!-- 源码包插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Javadoc插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- GPG签名插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven-gpg-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <!-- 源码包插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- Javadoc插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+
+            <!-- GPG签名插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
+
 </project>
