@@ -5,12 +5,12 @@
     <artifactId>whh-dependencies</artifactId>
     <packaging>pom</packaging>
     <!-- 发送maven中央仓库-->
-<!--    <version>1.0.2</version>-->
+    <version>1.0.3</version>
     <!--发送阿里云私服-->
-    <version>1.0.2-SNAPSHOT</version>
+<!--    <version>1.0.2-SNAPSHOT</version>-->
     <name>whh project Dependencies</name>
     <description>项目依赖</description>
-    <url>http://maven.apache.org</url>
+    <url>https://github.com/Jacksonhua/whh-project</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
