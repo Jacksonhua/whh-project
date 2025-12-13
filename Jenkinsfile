@@ -5,7 +5,6 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // 确保 Jenkins 能够拉取代码
-                sh 'git config --global http.sslBackend "openssl"'
                 checkout scm
             }
         }
