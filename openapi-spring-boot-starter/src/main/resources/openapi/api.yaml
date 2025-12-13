@@ -1,0 +1,229 @@
+openapi: 3.0.3
+info:
+  title: 示例API接口文档
+  description: 这是一个基于OpenAPI规范的示例API文档
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api
+    description: 本地开发服务器
+
+paths:
+  /users:
+    get:
+      summary: 获取用户列表
+      description: 获取所有用户的列表，支持分页
+      operationId: getUsersById
+      parameters:
+        - name: page
+          in: query
+          description: 页码，从0开始
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: 每页条数
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 成功获取用户列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageResponseUserDTO'
+
+    post:
+      summary: 创建新用户
+      description: 创建一个新的用户
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateDTO'
+      responses:
+        '201':
+          description: 用户创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: 请求参数错误
+
+  /users/{id}:
+    get:
+      summary: 获取用户详情
+      description: 根据ID获取用户的详细信息
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: 成功获取用户详情
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '404':
+          description: 用户不存在
+
+    put:
+      summary: 更新用户信息
+      description: 根据ID更新用户的信息
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateDTO'
+      responses:
+        '200':
+          description: 用户更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: 请求参数错误
+        '404':
+          description: 用户不存在
+
+    delete:
+      summary: 删除用户
+      description: 根据ID删除用户
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: 用户删除成功
+        '404':
+          description: 用户不存在
+
+components:
+  schemas:
+    UserDTO:
+      type: object
+      description: 用户信息DTO
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: 用户ID
+        username:
+          type: string
+          description: 用户名
+        email:
+          type: string
+          format: email
+          description: 邮箱
+        fullName:
+          type: string
+          description: 姓名
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE, LOCKED]
+          description: 用户状态
+        createdAt:
+          type: string
+          format: date-time
+          description: 创建时间
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新时间
+
+    UserCreateDTO:
+      type: object
+      description: 创建用户DTO
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          description: 用户名
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          description: 邮箱
+        fullName:
+          type: string
+          description: 姓名
+          maxLength: 100
+        password:
+          type: string
+          format: password
+          description: 密码
+          minLength: 8
+
+    UserUpdateDTO:
+      type: object
+      description: 更新用户DTO
+      properties:
+        email:
+          type: string
+          format: email
+          description: 邮箱
+        fullName:
+          type: string
+          description: 姓名
+          maxLength: 100
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE, LOCKED]
+          description: 用户状态
+
+    PageResponseUserDTO:
+      type: object
+      description: 用户分页响应DTO
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDTO'
+        page:
+          type: integer
+          description: 当前页码
+        size:
+          type: integer
+          description: 每页条数
+        totalElements:
+          type: integer
+          description: 总条数
+        totalPages:
+          type: integer
+          description: 总页数
+        last:
+          type: boolean
+          description: 是否最后一页
+        first:
+          type: boolean
+          description: 是否第一页

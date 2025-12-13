@@ -1,0 +1,139 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.jacksonhua</groupId>
+        <artifactId>whh-starter-parent</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+        <!-- 父项目路径 -->
+<!--        <relativePath>../whh-starter-parent/pom.xml</relativePath>-->
+    </parent>
+
+    <artifactId>openapi-spring-boot-starter</artifactId>
+
+
+    <name>openapi-spring-boot-starter</name>
+    <description>统一接口文档规范Starter，基于OpenAPI规范</description>
+    <!-- 统一项目信息 -->
+    <url>https://github.com/Jacksonhua/whh-project</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>王豪华</name>
+            <email>asd1194190200@qq.com</email>
+        </developer>
+    </developers>
+    <!-- SCM信息 -->
+    <scm>
+        <connection>scm:git:git://github.com/Jacksonhua/whh-project.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Jacksonhua/whh-project.git</developerConnection>
+        <url>https://github.com/Jacksonhua/whh-project</url>
+    </scm>
+    <!-- 统一项目信息 end -->
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <openapi-generator.version>6.2.1</openapi-generator.version>
+
+        <!-- 包名默认值，可被外部项目覆盖 -->
+        <openapi.api.package>io.github.jacksonhua.api</openapi.api.package>
+        <openapi.model.package>io.github.jacksonhua.dto</openapi.model.package>
+        <openapi.invoker.package>io.github.jacksonhua.api</openapi.invoker.package>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- Spring Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- SpringDoc OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
+
+        <!-- OpenAPI注解 -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>2.2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <!-- OpenAPI代码生成插件 -->
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-api</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <!-- API规范文件路径，支持外部配置 -->
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/api.yaml</inputSpec>
+
+
+                            <!-- 生成器类型：spring -->
+                            <generatorName>spring</generatorName>
+
+                            <!-- 包名配置，使用properties中的值 -->
+                            <apiPackage>${openapi.api.package}</apiPackage>
+                            <modelPackage>${openapi.model.package}</modelPackage>
+                            <!--                            <invokerPackage>${openapi.invoker.package}</invokerPackage>-->
+
+                            <!-- 配置参数 -->
+                            <configOptions>
+                                <!-- 是否使用委托模式 -->-->
+                                <delegatePattern>false</delegatePattern>
+                                <!-- 是否使用接口 -->
+                                <interfaceOnly>true</interfaceOnly>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <useSpringBoot3>false</useSpringBoot3>
+
+                                <java8>true</java8>
+                                <dateLibrary>java8</dateLibrary>
+                                <serializableModel>true</serializableModel>
+                                <useBeanValidation>true</useBeanValidation>
+                                <addCompileSourceRoot>true</addCompileSourceRoot>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
