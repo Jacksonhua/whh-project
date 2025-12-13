@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.github.jacksonhua</groupId>
+        <artifactId>whh-dependencies</artifactId>
+        <version>1.0.4</version>
+    </parent>
+
+    <artifactId>whh-starter-parent</artifactId>
+<!--    <version>1.0.1</version>-->
+    <version>1.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>whh-starter-parent</name>
+    <description>parent 项目</description>
+    <!-- 统一项目信息 -->
+    <url>https://github.com/Jacksonhua/whh-project</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>王豪华</name>
+            <email>asd1194190200@qq.com</email>
+        </developer>
+    </developers>
+    <!-- SCM信息 -->
+    <scm>
+        <connection>scm:git:git://github.com/Jacksonhua/whh-project.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Jacksonhua/whh-project.git</developerConnection>
+        <url>https://github.com/Jacksonhua/whh-project</url>
+    </scm>
+    <!-- 统一项目信息 end -->
+
+    <properties>
+        <!-- Java 配置 -->
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>3.2.1</maven-gpg-plugin.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- 源码包插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- Javadoc插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+
+
+        </plugins>
+    </build>
+</project>

@@ -564,6 +564,9 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>${maven-gpg-plugin.version}</version>
+                    <configuration>
+                        <executable>F:\Program Files (x86)\GnuPG\bin\gpg.exe</executable>
+                    </configuration>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -600,11 +603,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
             </plugin>
 
-            <!-- GPG签名插件 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-            </plugin>
+
         </plugins>
     </build>
     <!-- 配置profile maven中央仓库部署使用 mvn clean deploy -Psonatype -->
@@ -616,6 +615,11 @@
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
+                    </plugin>
+                    <!-- GPG签名插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
