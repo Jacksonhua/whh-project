@@ -6,9 +6,9 @@
         <artifactId>whh-starter-parent</artifactId>
         <version>1.0.1-SNAPSHOT</version>
         <!-- 父项目路径 -->
-<!--        <relativePath>../whh-starter-parent/pom.xml</relativePath>-->
+<!-- 12       <relativePath>../whh-starter-parent/pom.xml</relativePath>-->
     </parent>
-
+         
     <artifactId>openapi-spring-boot-starter</artifactId>
 
 
