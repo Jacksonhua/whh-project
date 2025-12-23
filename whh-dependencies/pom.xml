@@ -4,7 +4,7 @@
     <groupId>io.github.jacksonhua</groupId>
     <artifactId>whh-dependencies</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.4</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>whh project Dependencies</name>
     <description>项目依赖</description>
     <url>https://github.com/Jacksonhua/whh-project</url>
@@ -41,20 +41,19 @@
         <maven-gpg-plugin.version>3.2.1</maven-gpg-plugin.version>
 
         <!-- ========== Spring 生态 ========== -->
-        <spring-boot.version>2.7.6</spring-boot.version>
-        <spring-cloud.version>2021.0.5</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <spring-boot.version>2.7.17</spring-boot.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.6.0</spring-cloud-alibaba.version>
 
         <!-- ========== 数据库相关 ========== -->
-        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+        <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
         <druid.version>1.2.15</druid.version>
-        <mybatis-spring.version>2.1.1</mybatis-spring.version>
-        <pagehelper.version>1.4.6</pagehelper.version>
+        <pagehelper.version>1.4.7</pagehelper.version>
         <p6spy.version>3.9.1</p6spy.version>
 
         <!-- ========== Web 与 API ========== -->
-        <springdoc-openapi.version>1.6.15</springdoc-openapi.version>
+        <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
         <knife4j.version>4.0.0</knife4j.version>
         <servlet-api.version>4.0.1</servlet-api.version>
         <jsoup.version>1.15.4</jsoup.version>
@@ -84,7 +83,7 @@
         <hutool-crypto.version>5.8.16</hutool-crypto.version>  <!-- 脱敏工具 -->
 
         <!-- ========== 缓存与消息 ========== -->
-        <redisson.version>3.18.0</redisson.version>
+        <redisson.version>3.20.0</redisson.version>
 
 
         <rocketmq.version>4.9.4</rocketmq.version>
@@ -119,7 +118,11 @@
         <mockito.version>4.11.0</mockito.version>
         <!-- 获取系统信息 -->
         <oshi.version>6.6.5</oshi.version>
-
+        <!-- 包名默认值，可被外部项目覆盖 -->
+        <openapi.api.package>io.github.jacksonhua.api</openapi.api.package>
+        <openapi.model.package>io.github.jacksonhua.dto</openapi.model.package>
+        <openapi.invoker.package>io.github.jacksonhua.api</openapi.invoker.package>
+        <openapi-generator.version>6.2.1</openapi-generator.version>
 
     </properties>
     <dependencyManagement>
@@ -220,6 +223,11 @@
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-ui</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
 
@@ -577,7 +585,7 @@
                         </execution>
                     </executions>
                 </plugin>
-
+                <!-- Sonatype发布插件 -->
                 <plugin>
                     <groupId>org.sonatype.central</groupId>
                     <artifactId>central-publishing-maven-plugin</artifactId>
@@ -586,6 +594,49 @@
                     <configuration>
                         <publishingServerId>sonatype</publishingServerId>
                     </configuration>
+                </plugin>
+                <!-- OpenAPI代码生成插件 -->
+                <plugin>
+                    <groupId>org.openapitools</groupId>
+                    <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>${openapi-generator.version}</version>
+                    <executions>
+                        <execution>
+                            <id>generate-api</id>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <configuration>
+                                <!-- API规范文件路径，支持外部配置 -->
+                                <inputSpec>${project.basedir}/src/main/resources/openapi/api.yaml</inputSpec>
+
+
+                                <!-- 生成器类型：spring -->
+                                <generatorName>spring</generatorName>
+
+                                <!-- 包名配置，使用properties中的值 -->
+                                <apiPackage>${openapi.api.package}</apiPackage>
+                                <modelPackage>${openapi.model.package}</modelPackage>
+                                <!--                            <invokerPackage>${openapi.invoker.package}</invokerPackage>-->
+
+                                <!-- 配置参数 -->
+                                <configOptions>
+                                    <!-- 是否使用委托模式 -->-->
+                                    <delegatePattern>false</delegatePattern>
+                                    <!-- 是否使用接口 -->
+                                    <interfaceOnly>true</interfaceOnly>
+                                    <skipDefaultInterface>true</skipDefaultInterface>
+                                    <useSpringBoot3>false</useSpringBoot3>
+
+                                    <java8>true</java8>
+                                    <dateLibrary>java8</dateLibrary>
+                                    <serializableModel>true</serializableModel>
+                                    <useBeanValidation>true</useBeanValidation>
+                                    <addCompileSourceRoot>true</addCompileSourceRoot>
+                                </configOptions>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
             </plugins>

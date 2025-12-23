@@ -4,12 +4,12 @@
     <parent>
         <groupId>io.github.jacksonhua</groupId>
         <artifactId>whh-dependencies</artifactId>
-        <version>1.0.4</version>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>whh-starter-parent</artifactId>
 <!--    <version>1.0.1</version>-->
-    <version>1.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>whh-starter-parent</name>
@@ -49,21 +49,4 @@
         <maven-gpg-plugin.version>3.2.1</maven-gpg-plugin.version>
     </properties>
 
-    <build>
-        <plugins>
-            <!-- 源码包插件 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-            <!-- Javadoc插件 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-
-
-        </plugins>
-    </build>
 </project>
