@@ -6,9 +6,8 @@ import io.github.jacksonhua.dto.UserCreateCommand;
 import io.github.jacksonhua.dto.UserUpdateCommand;
 import io.github.jacksonhua.common.web.response.Page;
 import io.github.jacksonhua.common.web.response.Result;
-import io.swagger.v3.oas.annotations.Hidden;
+import io.github.jacksonhua.openApi.condition.ShowDemoCondition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -24,9 +23,9 @@ import java.util.UUID;
  * @author whh
  */
 
-//@ConditionalOnProperty(prefix = "openapi", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "openapi", name = "show-demo", havingValue = "true")
 @RestController("demo")
-@Conditional(ShowDemoCondition.class)
+//@Conditional(ShowDemoCondition.class)
 public class DemoController implements UsersApi {
 
 

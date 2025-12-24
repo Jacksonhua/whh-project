@@ -1,10 +1,11 @@
-package io.github.jacksonhua;
+package io.github.jacksonhua.openApi.autoConfig;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,21 +16,20 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(OpenApiProperties.class)
+//@Conditional(OpenApiCondition.class)
 public class OpenApiAutoConfiguration {
 
-    private final OpenApiProperties properties;
 
-    public OpenApiAutoConfiguration(OpenApiProperties properties) {
-        this.properties = properties;
-    }
 
     /**
      * 提供默认的OpenAPI配置，允许用户在自己的项目中自定义覆盖
+     * @param properties properties
      * @return OpenAPI对象
      */
     @Bean
     @ConditionalOnMissingBean
-    public OpenAPI customOpenAPI() {
+    @ConditionalOnProperty(prefix = "openapi", name = "enabled", havingValue = "true",matchIfMissing = true)
+    public OpenAPI customOpenAPI(OpenApiProperties properties) {
         // 构建联系人信息
         Contact contact = new Contact()
                 .name(properties.getContactName())

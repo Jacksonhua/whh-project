@@ -1,13 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-<!--    <parent>-->
-<!--        <groupId>io.github.jacksonhua</groupId>-->
-<!--        <artifactId>whh-starter-parent</artifactId>-->
-<!--        <version>0.0.1-SNAPSHOT</version>-->
-<!--        &lt;!&ndash; 父项目路径 &ndash;&gt;-->
-<!--&lt;!&ndash; 12       <relativePath>../whh-starter-parent/pom.xml</relativePath>&ndash;&gt;-->
-<!--    </parent>-->
+    <parent>
+        <groupId>io.github.jacksonhua</groupId>
+        <artifactId>whh-starter-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
     <groupId>io.github.jacksonhua</groupId>
     <artifactId>whh-openapi-starter</artifactId>
 
@@ -45,17 +43,17 @@
         <openapi.model.package>io.github.jacksonhua.dto</openapi.model.package>
         <openapi.invoker.package>io.github.jacksonhua.api</openapi.invoker.package>
     </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.github.jacksonhua</groupId>
-                <artifactId>whh-dependencies</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+<!--    <dependencyManagement>-->
+<!--        <dependencies>-->
+<!--            <dependency>-->
+<!--                <groupId>io.github.jacksonhua</groupId>-->
+<!--                <artifactId>whh-dependencies</artifactId>-->
+<!--                <version>0.0.1-SNAPSHOT</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+<!--        </dependencies>-->
+<!--    </dependencyManagement>-->
 
     <dependencies>
         <dependency>
@@ -77,7 +75,6 @@
         <dependency>
             <groupId>io.github.jacksonhua</groupId>
             <artifactId>whh-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
 
@@ -105,86 +102,105 @@
             <artifactId>jackson-databind-nullable</artifactId>
             <version>0.2.6</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-autoconfigure</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
     <build>
-        <pluginManagement>
-            <!-- 解决generated-sources 不能被识别的问题 也可以手动设置为generated-sources root -->
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <phase>generate-sources</phase>
-                            <goals><goal>add-source</goal></goals>
-                            <configuration>
-                                <sources>
-                                    <source>${project.build.directory}/generated-sources/openapi</source>
-                                </sources>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.openapitools</groupId>
-                    <artifactId>openapi-generator-maven-plugin</artifactId>
-                    <version>${openapi-generator.version}</version>
-                    <executions>
-                        <execution>
-                            <id>generate-api</id>
-                            <goals>
-                                <goal>generate</goal>
-                            </goals>
-                            <configuration>
-                                <templateDirectory>${project.basedir}/src/main/resources/mustache</templateDirectory>
-                                <!-- API规范文件路径，支持外部配置 -->
-                                <inputSpec>${project.basedir}/src/main/resources/openapi/api.yaml</inputSpec>
-                                <!-- 生成器类型：spring -->
-                                <generatorName>spring</generatorName>
-                                <!--核心——将 YAML 映射到 Starter 里的 Java 类-->
-                                <schemaMappings>
-                                    <schemaMapping>ResultDto=io.github.jacksonhua.common.web.response.Result</schemaMapping>
-                                </schemaMappings>
+<!--        <pluginManagement>-->
+<!--            &lt;!&ndash; 解决generated-sources 不能被识别的问题 也可以手动设置为generated-sources root &ndash;&gt;-->
+<!--            <plugins>-->
+<!--                <plugin>-->
+<!--                    <groupId>org.codehaus.mojo</groupId>-->
+<!--                    <artifactId>build-helper-maven-plugin</artifactId>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <phase>generate-sources</phase>-->
+<!--                            <goals><goal>add-source</goal></goals>-->
+<!--                            <configuration>-->
+<!--                                <sources>-->
+<!--                                    <source>${project.build.directory}/generated-sources/openapi</source>-->
+<!--                                </sources>-->
+<!--                            </configuration>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                </plugin>-->
+<!--                <plugin>-->
+<!--                    <groupId>org.openapitools</groupId>-->
+<!--                    <artifactId>openapi-generator-maven-plugin</artifactId>-->
+<!--                    <version>${openapi-generator.version}</version>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <id>generate-api</id>-->
+<!--                            <goals>-->
+<!--                                <goal>generate</goal>-->
+<!--                            </goals>-->
+<!--                            <configuration>-->
+<!--                                <templateDirectory>${project.basedir}/src/main/resources/mustache</templateDirectory>-->
+<!--                                &lt;!&ndash; API规范文件路径，支持外部配置 &ndash;&gt;-->
+<!--                                <inputSpec>${project.basedir}/src/main/resources/openapi/api.yaml</inputSpec>-->
+<!--                                &lt;!&ndash; 生成器类型：spring &ndash;&gt;-->
+<!--                                <generatorName>spring</generatorName>-->
+<!--                                &lt;!&ndash;核心——将 YAML 映射到 Starter 里的 Java 类&ndash;&gt;-->
+<!--                                <schemaMappings>-->
+<!--                                    <schemaMapping>ResultDto=io.github.jacksonhua.common.web.response.Result</schemaMapping>-->
+<!--                                </schemaMappings>-->
 
-                                <importMappings>
-                                    <importMapping>ResultDto=io.github.jacksonhua.common.web.response.Result</importMapping>
-                                </importMappings>
-<!--                                <library>spring-boot</library>-->
-                                <!-- 包名配置，使用properties中的值 -->
-                                <apiPackage>${openapi.api.package}</apiPackage>
-                                <modelPackage>${openapi.model.package}</modelPackage>
-                                <!--                            <invokerPackage>${openapi.invoker.package}</invokerPackage>-->
+<!--                                <importMappings>-->
+<!--                                    <importMapping>ResultDto=io.github.jacksonhua.common.web.response.Result</importMapping>-->
+<!--                                </importMappings>-->
+<!--&lt;!&ndash;                                <library>spring-boot</library>&ndash;&gt;-->
+<!--                                &lt;!&ndash; 包名配置，使用properties中的值 &ndash;&gt;-->
+<!--                                <apiPackage>${openapi.api.package}</apiPackage>-->
+<!--                                <modelPackage>${openapi.model.package}</modelPackage>-->
+<!--                                &lt;!&ndash;                            <invokerPackage>${openapi.invoker.package}</invokerPackage>&ndash;&gt;-->
 
-                                <!-- 配置参数 -->
-                                <configOptions>
+<!--                                &lt;!&ndash; 配置参数 &ndash;&gt;-->
+<!--                                <configOptions>-->
 
-                                    <useResponseEntity>false</useResponseEntity>
+<!--                                    <useResponseEntity>false</useResponseEntity>-->
 
-                                    <!-- 是否使用委托模式 -->-->
-                                    <delegatePattern>false</delegatePattern>
-                                    <!-- 是否使用接口 -->
-                                    <interfaceOnly>true</interfaceOnly>
-                                    <skipDefaultInterface>true</skipDefaultInterface>
-                                    <useSpringBoot3>false</useSpringBoot3>
+<!--                                    &lt;!&ndash; 是否使用委托模式 &ndash;&gt;&ndash;&gt;-->
+<!--                                    <delegatePattern>false</delegatePattern>-->
+<!--                                    &lt;!&ndash; 是否使用接口 &ndash;&gt;-->
+<!--                                    <interfaceOnly>true</interfaceOnly>-->
+<!--                                    <skipDefaultInterface>true</skipDefaultInterface>-->
+<!--                                    <useSpringBoot3>false</useSpringBoot3>-->
 
-                                    <java8>true</java8>
-                                    <dateLibrary>java8</dateLibrary>
-                                    <serializableModel>true</serializableModel>
-                                    <useBeanValidation>true</useBeanValidation>
-                                    <addCompileSourceRoot>true</addCompileSourceRoot>
-                                </configOptions>
+<!--                                    <java8>true</java8>-->
+<!--                                    <dateLibrary>java8</dateLibrary>-->
+<!--                                    <serializableModel>true</serializableModel>-->
+<!--                                    <useBeanValidation>true</useBeanValidation>-->
+<!--                                    <addCompileSourceRoot>true</addCompileSourceRoot>-->
+<!--                                </configOptions>-->
 
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
+<!--                            </configuration>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                </plugin>-->
 
-            </plugins>
-        </pluginManagement>
+<!--            </plugins>-->
+<!--        </pluginManagement>-->
         <plugins>
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
+<!--                <version>${openapi-generator.version}</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <configuration >-->
+<!--                            <templateDirectory>${project.basedir}/src/main/resources/mustache</templateDirectory>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+            </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <failOnError>false</failOnError> <!-- 不推荐 -->
+                </configuration>
             </plugin>
         </plugins>
     </build>

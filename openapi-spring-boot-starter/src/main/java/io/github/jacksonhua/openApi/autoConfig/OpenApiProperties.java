@@ -1,8 +1,8 @@
-package io.github.jacksonhua;
+package io.github.jacksonhua.openApi.autoConfig;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * OpenAPI 配置属性类，用于接收应用配置文件中的参数
@@ -36,5 +36,6 @@ public class OpenApiProperties {
     // 许可证URL
     private String licenseUrl = "https://www.apache.org/licenses/LICENSE-2.0.html";
 
-    private boolean showDemoController = false;
+    private boolean showDemo = false;
+    private boolean enabled = true;
 }

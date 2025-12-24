@@ -1,8 +1,10 @@
-package io.github.jacksonhua;
+package io.github.jacksonhua.openApi.condition;
 
+import io.github.jacksonhua.openApi.autoConfig.OpenApiProperties;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
@@ -21,7 +23,13 @@ public class ShowDemoCondition implements Condition {
         }
 
         // 获取 OpenApiProperties Bean
-        OpenApiProperties props = beanFactory.getBean(OpenApiProperties.class);
-        return props.isShowDemoController();
+        try {
+            OpenApiProperties props = beanFactory.getBean(OpenApiProperties.class);
+            return  props.isShowDemo();
+        }catch (Exception e){
+            Environment environment = context.getEnvironment();
+            String property = environment.getProperty("openapi.show-demo", "false");
+            return "true".equals(property);
+        }
     }
 }
