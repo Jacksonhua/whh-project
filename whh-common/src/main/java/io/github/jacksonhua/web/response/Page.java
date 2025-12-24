@@ -6,9 +6,9 @@ import java.util.List;
 
 @Data
 public class Page<T> {
-    private int pageSize = -1;
+    private long pageSize = -1;
     private long total;
-    private int page = 0;
+    private long page = 0;
     private List<T> data;
 
     public static <T> Page<T> of(com.github.pagehelper.Page<T> result) {
@@ -19,14 +19,7 @@ public class Page<T> {
         pageData.setPageSize(result.getPageSize());
         return pageData;
     }
-    public static <T> Page<T> of(com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> result) {
-        Page<T> pageData = new Page<>();
-        pageData.setData(result.getRecords());
-        pageData.setTotal(result.getTotal());
-        pageData.setPage(result.getCurrent());
-        pageData.setPageSize(result.getSize());
-        return pageData;
-    }
+
     public static <T> Page<T> of(com.baomidou.mybatisplus.core.metadata.IPage<T> result) {
         Page<T> pageData = new Page<>();
         pageData.setData(result.getRecords());
