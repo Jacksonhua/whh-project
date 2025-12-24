@@ -44,6 +44,7 @@
         <spring-boot.version>2.7.17</spring-boot.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.6.0</spring-cloud-alibaba.version>
+        <lombok.version>1.18.30</lombok.version>
 
         <!-- ========== 数据库相关 ========== -->
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
@@ -118,11 +119,10 @@
         <mockito.version>4.11.0</mockito.version>
         <!-- 获取系统信息 -->
         <oshi.version>6.6.5</oshi.version>
-        <!-- 包名默认值，可被外部项目覆盖 -->
-        <openapi.api.package>io.github.jacksonhua.api</openapi.api.package>
-        <openapi.model.package>io.github.jacksonhua.dto</openapi.model.package>
-        <openapi.invoker.package>io.github.jacksonhua.api</openapi.invoker.package>
-        <openapi-generator.version>6.2.1</openapi-generator.version>
+
+        <!-- ========== whh 框架 ========== -->
+        <whh-starter-parent.version>0.0.1-SNAPSHOT</whh-starter-parent.version>
+        <whh-common.version>0.0.1-SNAPSHOT</whh-common.version>
 
     </properties>
     <dependencyManagement>
@@ -481,7 +481,19 @@
                 <artifactId>oshi-core</artifactId>
                 <version>${oshi.version}</version>
             </dependency>
+            <!-- whh 框架 -->
+            <dependency>
+                <groupId>io.github.jacksonhua</groupId>
+                <artifactId>whh-common</artifactId>
+                <version>${whh-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jacksonhua</groupId>
+                <artifactId>whh-starter-parent</artifactId>
+                <version>${whh-starter-parent.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <build>
@@ -508,6 +520,11 @@
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok-mapstruct-binding</artifactId>
                                 <version>${lombok-mapstruct-binding.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
@@ -595,50 +612,6 @@
                         <publishingServerId>sonatype</publishingServerId>
                     </configuration>
                 </plugin>
-                <!-- OpenAPI代码生成插件 -->
-                <plugin>
-                    <groupId>org.openapitools</groupId>
-                    <artifactId>openapi-generator-maven-plugin</artifactId>
-                    <version>${openapi-generator.version}</version>
-                    <executions>
-                        <execution>
-                            <id>generate-api</id>
-                            <goals>
-                                <goal>generate</goal>
-                            </goals>
-                            <configuration>
-                                <!-- API规范文件路径，支持外部配置 -->
-                                <inputSpec>${project.basedir}/src/main/resources/openapi/api.yaml</inputSpec>
-
-
-                                <!-- 生成器类型：spring -->
-                                <generatorName>spring</generatorName>
-
-                                <!-- 包名配置，使用properties中的值 -->
-                                <apiPackage>${openapi.api.package}</apiPackage>
-                                <modelPackage>${openapi.model.package}</modelPackage>
-                                <!--                            <invokerPackage>${openapi.invoker.package}</invokerPackage>-->
-
-                                <!-- 配置参数 -->
-                                <configOptions>
-                                    <!-- 是否使用委托模式 -->-->
-                                    <delegatePattern>false</delegatePattern>
-                                    <!-- 是否使用接口 -->
-                                    <interfaceOnly>true</interfaceOnly>
-                                    <skipDefaultInterface>true</skipDefaultInterface>
-                                    <useSpringBoot3>false</useSpringBoot3>
-
-                                    <java8>true</java8>
-                                    <dateLibrary>java8</dateLibrary>
-                                    <serializableModel>true</serializableModel>
-                                    <useBeanValidation>true</useBeanValidation>
-                                    <addCompileSourceRoot>true</addCompileSourceRoot>
-                                </configOptions>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-
             </plugins>
         </pluginManagement>
         <plugins>
