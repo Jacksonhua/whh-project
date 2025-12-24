@@ -1,5 +1,6 @@
 package io.github.jacksonhua.web.response;
 
+import io.github.jacksonhua.common.web.response.Result;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

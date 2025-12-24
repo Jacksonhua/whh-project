@@ -74,12 +74,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.github.jacksonhua</groupId>
             <artifactId>whh-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
 
 
         <!-- Spring Web -->
@@ -108,7 +108,23 @@
     </dependencies>
     <build>
         <pluginManagement>
+            <!-- 解决generated-sources 不能被识别的问题 也可以手动设置为generated-sources root -->
             <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals><goal>add-source</goal></goals>
+                            <configuration>
+                                <sources>
+                                    <source>${project.build.directory}/generated-sources/openapi</source>
+                                </sources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <groupId>org.openapitools</groupId>
                     <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -127,11 +143,11 @@
                                 <generatorName>spring</generatorName>
                                 <!--核心——将 YAML 映射到 Starter 里的 Java 类-->
                                 <schemaMappings>
-                                    <schemaMapping>ResultDto=io.github.jacksonhua.web.response.Result</schemaMapping>
+                                    <schemaMapping>ResultDto=io.github.jacksonhua.common.web.response.Result</schemaMapping>
                                 </schemaMappings>
 
                                 <importMappings>
-                                    <importMapping>ResultDto=io.github.jacksonhua.web.response.Result</importMapping>
+                                    <importMapping>ResultDto=io.github.jacksonhua.common.web.response.Result</importMapping>
                                 </importMappings>
 <!--                                <library>spring-boot</library>-->
                                 <!-- 包名配置，使用properties中的值 -->

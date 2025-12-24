@@ -1,4 +1,4 @@
-package io.github.jacksonhua.web.response;
+package io.github.jacksonhua.common.web.response;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

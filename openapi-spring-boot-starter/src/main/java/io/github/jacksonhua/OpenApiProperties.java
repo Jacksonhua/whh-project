@@ -36,35 +36,5 @@ public class OpenApiProperties {
     // 许可证URL
     private String licenseUrl = "https://www.apache.org/licenses/LICENSE-2.0.html";
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public String getContactName() {
-        return contactName;
-    }
-
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public String getContactUrl() {
-        return contactUrl;
-    }
-
-    public String getLicenseName() {
-        return licenseName;
-    }
-
-    public String getLicenseUrl() {
-        return licenseUrl;
-    }
+    private boolean showDemoController = false;
 }

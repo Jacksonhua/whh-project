@@ -123,6 +123,7 @@
         <!-- ========== whh 框架 ========== -->
         <whh-starter-parent.version>0.0.1-SNAPSHOT</whh-starter-parent.version>
         <whh-common.version>0.0.1-SNAPSHOT</whh-common.version>
+        <whh-openapi-starter.version>0.0.1-SNAPSHOT</whh-openapi-starter.version>
 
     </properties>
     <dependencyManagement>
@@ -491,6 +492,11 @@
                 <groupId>io.github.jacksonhua</groupId>
                 <artifactId>whh-starter-parent</artifactId>
                 <version>${whh-starter-parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jacksonhua</groupId>
+                <artifactId>whh-openapi-starter</artifactId>
+                <version>${whh-openapi-starter.version}</version>
             </dependency>
         </dependencies>
 

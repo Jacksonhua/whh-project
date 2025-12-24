@@ -36,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDTO'
+                $ref: '#/components/schemas/DemoUserDTO'
 
     post:
       summary: 创建新用户
@@ -47,14 +47,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserCreateDTO'
+              $ref: '#/components/schemas/UserCreateCommand'
       responses:
         '201':
           description: 用户创建成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDTO'
+                $ref: '#/components/schemas/DemoUserDTO'
         '400':
           description: 请求参数错误
 
@@ -126,7 +126,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDTO'
+                $ref: '#/components/schemas/DemoUserDTO'
         '404':
           description: 用户不存在
 
@@ -146,14 +146,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserUpdateDTO'
+              $ref: '#/components/schemas/UserUpdateCommand'
       responses:
         '200':
           description: 用户更新成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserDTO'
+                $ref: '#/components/schemas/DemoUserDTO'
         '400':
           description: 请求参数错误
         '404':
@@ -178,7 +178,7 @@ paths:
 
 components:
   schemas:
-    UserDTO:
+    DemoUserDTO:
       type: object
       description: 用户信息DTO
       properties:
@@ -209,7 +209,7 @@ components:
           format: date-time
           description: 更新时间
 
-    UserCreateDTO:
+    UserCreateCommand:
       type: object
       description: 创建用户DTO
       required:
@@ -235,7 +235,7 @@ components:
           description: 密码
           minLength: 8
 
-    UserUpdateDTO:
+    UserUpdateCommand:
       type: object
       description: 更新用户DTO
       properties:
@@ -259,7 +259,7 @@ components:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/UserDTO'
+            $ref: '#/components/schemas/DemoUserDTO'
         page:
           type: integer
           description: 当前页码
@@ -278,44 +278,4 @@ components:
         first:
           type: boolean
           description: 是否第一页
-    # 统一响应封装
-    ResultDto:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          description: 业务状态码（如 0 成功，非 0 业务失败）
-          example: 0
-        msg:
-          type: string
-          description: 人类可读提示信息
-          example: 操作成功
-        data:
-          oneOf:
-            - type: object
-              description: 对象数据
-            - type: array
-              description: 列表数据
-              items: { }
-            - type: string
-            - type: number
-            - type: boolean
-            - type: null
-          nullable: true
-          description: 成功时返回的业务数据，失败可为 null
-        correlationId:
-          type: string
-          format: uuid
-          description: 请求唯一标识，用于链路追踪
-          example: 550e8400-e29b-41d4-a716-446655440000
-        timestamp:
-          type: string
-          format: date-time
-          description: 响应生成时间（ISO 8601）
-          example: 2025-12-23T18:17:02.123Z
-      required:
-        - code
-        - msg
-        - correlationId
-        - timestamp
+
