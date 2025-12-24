@@ -11,6 +11,12 @@ public class Page<T> {
     private long page = 0;
     private List<T> data;
 
+    /**
+     * 将PageHelper的分页结果转换为Page对象
+     * @param result
+     * @return
+     * @param <T>
+     */
     public static <T> Page<T> of(com.github.pagehelper.Page<T> result) {
         Page<T> pageData = new Page<>();
         pageData.setData(result.getResult());
@@ -20,6 +26,12 @@ public class Page<T> {
         return pageData;
     }
 
+    /**
+     * 将MyBatisPlus的分页结果转换为Page对象
+     * @param result
+     * @return
+     * @param <T>
+     */
     public static <T> Page<T> of(com.baomidou.mybatisplus.core.metadata.IPage<T> result) {
         Page<T> pageData = new Page<>();
         pageData.setData(result.getRecords());
@@ -28,11 +40,27 @@ public class Page<T> {
         pageData.setPageSize(result.getSize());
         return pageData;
     }
+
+    /**
+     * 根据spring-data/jpa的分页结果转换为Page对象
+     */
+    public static <T> Page<T> of(org.springframework.data.domain.Page<T> result) {
+        Page<T> pageData = new Page<>();
+        pageData.setData(result.getContent());
+        pageData.setTotal(result.getTotalElements());
+        pageData.setPage(result.getNumber());
+        pageData.setPageSize(result.getSize());
+        return pageData;
+    }
+
     public static <T> Page<T> data(List<T> data) {
         Page<T> pageData = new Page<>();
         pageData.setData(data);
         return pageData;
     }
+
+
+
 
 
 
