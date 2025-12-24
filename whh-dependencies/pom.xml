@@ -4,7 +4,7 @@
     <groupId>io.github.jacksonhua</groupId>
     <artifactId>whh-dependencies</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.4</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>whh project Dependencies</name>
     <description>项目依赖</description>
     <url>https://github.com/Jacksonhua/whh-project</url>
@@ -41,20 +41,20 @@
         <maven-gpg-plugin.version>3.2.1</maven-gpg-plugin.version>
 
         <!-- ========== Spring 生态 ========== -->
-        <spring-boot.version>2.7.6</spring-boot.version>
-        <spring-cloud.version>2021.0.5</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <spring-boot.version>2.7.17</spring-boot.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.6.0</spring-cloud-alibaba.version>
+        <lombok.version>1.18.30</lombok.version>
 
         <!-- ========== 数据库相关 ========== -->
-        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+        <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
         <druid.version>1.2.15</druid.version>
-        <mybatis-spring.version>2.1.1</mybatis-spring.version>
-        <pagehelper.version>1.4.6</pagehelper.version>
+        <pagehelper.version>1.4.7</pagehelper.version>
         <p6spy.version>3.9.1</p6spy.version>
 
         <!-- ========== Web 与 API ========== -->
-        <springdoc-openapi.version>1.6.15</springdoc-openapi.version>
+        <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
         <knife4j.version>4.0.0</knife4j.version>
         <servlet-api.version>4.0.1</servlet-api.version>
         <jsoup.version>1.15.4</jsoup.version>
@@ -84,7 +84,7 @@
         <hutool-crypto.version>5.8.16</hutool-crypto.version>  <!-- 脱敏工具 -->
 
         <!-- ========== 缓存与消息 ========== -->
-        <redisson.version>3.18.0</redisson.version>
+        <redisson.version>3.20.0</redisson.version>
 
 
         <rocketmq.version>4.9.4</rocketmq.version>
@@ -120,6 +120,9 @@
         <!-- 获取系统信息 -->
         <oshi.version>6.6.5</oshi.version>
 
+        <!-- ========== whh 框架 ========== -->
+        <whh-starter-parent.version>0.0.1-SNAPSHOT</whh-starter-parent.version>
+        <whh-common.version>0.0.1-SNAPSHOT</whh-common.version>
 
     </properties>
     <dependencyManagement>
@@ -220,6 +223,11 @@
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-ui</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
 
@@ -473,7 +481,19 @@
                 <artifactId>oshi-core</artifactId>
                 <version>${oshi.version}</version>
             </dependency>
+            <!-- whh 框架 -->
+            <dependency>
+                <groupId>io.github.jacksonhua</groupId>
+                <artifactId>whh-common</artifactId>
+                <version>${whh-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.jacksonhua</groupId>
+                <artifactId>whh-starter-parent</artifactId>
+                <version>${whh-starter-parent.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <build>
@@ -500,6 +520,11 @@
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok-mapstruct-binding</artifactId>
                                 <version>${lombok-mapstruct-binding.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
@@ -577,7 +602,7 @@
                         </execution>
                     </executions>
                 </plugin>
-
+                <!-- Sonatype发布插件 -->
                 <plugin>
                     <groupId>org.sonatype.central</groupId>
                     <artifactId>central-publishing-maven-plugin</artifactId>
@@ -587,7 +612,6 @@
                         <publishingServerId>sonatype</publishingServerId>
                     </configuration>
                 </plugin>
-
             </plugins>
         </pluginManagement>
         <plugins>

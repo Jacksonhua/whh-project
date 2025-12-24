@@ -25,6 +25,7 @@ public class OpenApiAutoConfiguration {
 
     /**
      * 提供默认的OpenAPI配置，允许用户在自己的项目中自定义覆盖
+     * @return OpenAPI对象
      */
     @Bean
     @ConditionalOnMissingBean
