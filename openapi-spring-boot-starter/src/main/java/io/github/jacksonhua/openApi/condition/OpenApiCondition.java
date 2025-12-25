@@ -29,7 +29,7 @@ public class OpenApiCondition implements Condition {
             return  props.isEnabled();
         }catch (Exception e){
             Environment environment = context.getEnvironment();
-            String property = environment.getProperty("openapi.enabled", "true");
+            String property = environment.getProperty("whh.openapi.enabled", "true");
             return "true".equals(property);
         }
 

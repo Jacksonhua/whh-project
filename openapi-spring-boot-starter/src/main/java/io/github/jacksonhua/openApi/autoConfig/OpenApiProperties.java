@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * OpenAPI 配置属性类，用于接收应用配置文件中的参数
  * @author whh
  */
-@ConfigurationProperties(prefix = "openapi")
+@ConfigurationProperties(prefix = "whh.openapi")
 @Data
 public class OpenApiProperties {
 

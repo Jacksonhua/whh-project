@@ -28,7 +28,7 @@ public class OpenApiAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "openapi", name = "enabled", havingValue = "true",matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "whh.openapi", name = "enabled", havingValue = "true",matchIfMissing = true)
     public OpenAPI customOpenAPI(OpenApiProperties properties) {
         // 构建联系人信息
         Contact contact = new Contact()

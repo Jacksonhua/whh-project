@@ -601,9 +601,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>${maven-gpg-plugin.version}</version>
-                    <configuration>
-                        <executable>F:\Program Files (x86)\GnuPG\bin\gpg.exe</executable>
-                    </configuration>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -636,7 +633,7 @@
                             </goals>
                             <configuration>
                                 <sources>
-                                    <source>${project.build.directory}/generated-sources/openapi</source>
+                                    <source>${project.build.directory}/generated-sources/openapi/src/main/java</source>
                                 </sources>
                             </configuration>
                         </execution>
@@ -652,8 +649,9 @@
                             <goals>
                                 <goal>generate</goal>
                             </goals>
+                            <phase>generate-resources</phase>
                             <configuration>
-                                <templateDirectory>${project.basedir}/src/main/resources/mustache</templateDirectory>
+                                <templateDirectory>${project.build.directory}/generated-resources/mustache</templateDirectory>
                                 <!-- API规范文件路径，支持外部配置 -->
                                 <inputSpec>${project.basedir}/src/main/resources/openapi/api.yaml</inputSpec>
                                 <!-- 生成器类型：spring -->
@@ -695,7 +693,7 @@
                     <executions>
                         <execution>
                             <id>unpack-templates</id>
-                            <phase>generate-resources</phase>
+                            <phase>generate-sources</phase>
                             <goals>
                                 <goal>unpack</goal>
                             </goals>
@@ -706,7 +704,7 @@
                                         <artifactId>whh-openapi-starter</artifactId>
                                         <version>${whh-openapi-starter.version}</version>
                                         <includes>mustache/*.mustache</includes>
-                                        <outputDirectory>${project.basedir}/src/main/resources/mustache
+                                        <outputDirectory>${project.build.directory}/generated-resources
                                         </outputDirectory>
                                     </artifactItem>
                                 </artifactItems>

@@ -28,7 +28,7 @@ public class ShowDemoCondition implements Condition {
             return  props.isShowDemo();
         }catch (Exception e){
             Environment environment = context.getEnvironment();
-            String property = environment.getProperty("openapi.show-demo", "false");
+            String property = environment.getProperty("whh.openapi.show-demo", "false");
             return "true".equals(property);
         }
     }
