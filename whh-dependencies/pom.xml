@@ -651,7 +651,8 @@
                             </goals>
                             <phase>generate-resources</phase>
                             <configuration>
-                                <templateDirectory>${project.build.directory}/generated-resources/mustache</templateDirectory>
+                                <!-- 注释掉，改用插件依赖 -->
+<!--                                <templateDirectory>${project.build.directory}/generated-resources/mustache</templateDirectory>-->
                                 <!-- API规范文件路径，支持外部配置 -->
                                 <inputSpec>${project.basedir}/src/main/resources/openapi/api.yaml</inputSpec>
                                 <!-- 生成器类型：spring -->
