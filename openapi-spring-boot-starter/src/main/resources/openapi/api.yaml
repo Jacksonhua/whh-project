@@ -8,28 +8,20 @@ servers:
   - url: http://localhost:8080/api
     description: 本地开发服务器
 
+tags:
+  - name: demoUsers
+    description: 用户管理
 paths:
   /users:
     get:
+      tags: [demoUsers]
       summary: 获取用户列表
       description: 获取所有用户的列表，支持分页
       operationId: getUsersById
       x-is-page: true
       parameters:
-        - name: page
-          in: query
-          description: 页码，从0开始
-          required: false
-          schema:
-            type: integer
-            default: 0
-        - name: size
-          in: query
-          description: 每页条数
-          required: false
-          schema:
-            type: integer
-            default: 10
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/size'
       responses:
         '200':
           description: 成功获取用户列表
@@ -39,6 +31,7 @@ paths:
                 $ref: '#/components/schemas/DemoUserDTO'
 
     post:
+      tags: [demoUsers]
       summary: 创建新用户
       description: 创建一个新的用户
       operationId: createUser
@@ -60,6 +53,7 @@ paths:
 
   /users/{id}/avatar:
     post:
+      tags: [demoUsers]
       summary: 上传用户头像
       operationId: uploadUserAvatar
       parameters:
@@ -89,6 +83,7 @@ paths:
 
   /users/{id}/export:
     get:
+      tags: [demoUsers]
       summary: 导出用户信息
       operationId: exportUserInfo
       x-download: true
@@ -110,6 +105,7 @@ paths:
 
   /users/{id}:
     get:
+      tags: [demoUsers]
       summary: 获取用户详情
       description: 根据ID获取用户的详细信息
       operationId: getUserById
@@ -177,6 +173,24 @@ paths:
           description: 用户不存在
 
 components:
+  parameters:
+    page:
+      name: page
+      in: query
+      description: 页码，从0开始
+      required: false
+      schema:
+        type: integer
+        default: 0
+    size:
+      name: size
+      in: query
+      description: 每页条数
+      required: false
+      schema:
+        type: integer
+        default: 10
+
   schemas:
     DemoUserDTO:
       type: object

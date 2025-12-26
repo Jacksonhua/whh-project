@@ -125,6 +125,12 @@
         <whh-common.version>0.0.1-SNAPSHOT</whh-common.version>
         <whh-openapi-starter.version>0.0.1-SNAPSHOT</whh-openapi-starter.version>
 
+        <!-- openapi generator -->
+        <openapi-generator.version>6.6.0</openapi-generator.version>
+        <!-- 包名默认值，可被外部项目覆盖 -->
+        <openapi.api.package>io.github.jacksonhua.api</openapi.api.package>
+        <openapi.model.package>io.github.jacksonhua.dto</openapi.model.package>
+        <openapi.invoker.package>io.github.jacksonhua.api</openapi.invoker.package>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -595,9 +601,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>${maven-gpg-plugin.version}</version>
-                    <configuration>
-                        <executable>F:\Program Files (x86)\GnuPG\bin\gpg.exe</executable>
-                    </configuration>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -618,41 +621,135 @@
                         <publishingServerId>sonatype</publishingServerId>
                     </configuration>
                 </plugin>
+                <!-- 解决generated-sources 不能被识别的问题 也可以手动设置为generated-sources root -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>add-source</goal>
+                            </goals>
+                            <configuration>
+                                <sources>
+                                    <source>${project.build.directory}/generated-sources/openapi/src/main/java</source>
+                                </sources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.openapitools</groupId>
+                    <artifactId>openapi-generator-maven-plugin</artifactId>
+                    <version>${openapi-generator.version}</version>
+                    <executions>
+                        <execution>
+                            <id>generate-api</id>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <phase>generate-resources</phase>
+                            <configuration>
+                                <!-- 注释掉，改用插件依赖 -->
+<!--                                <templateDirectory>${project.build.directory}/generated-resources/mustache</templateDirectory>-->
+                                <!-- API规范文件路径，支持外部配置 -->
+                                <inputSpec>${project.basedir}/src/main/resources/openapi/api.yaml</inputSpec>
+                                <!-- 生成器类型：spring -->
+                                <generatorName>spring</generatorName>
+
+                                <!--                             <library>spring-boot</library>-->
+                                <!-- 包名配置，使用properties中的值 -->
+                                <apiPackage>${openapi.api.package}</apiPackage>
+                                <modelPackage>${openapi.model.package}</modelPackage>
+                                <!--                            <invokerPackage>${openapi.invoker.package}</invokerPackage>-->
+
+                                <!-- 配置参数 -->
+                                <configOptions>
+
+                                    <useResponseEntity>false</useResponseEntity>
+
+                                    <!-- 是否使用委托模式 -->-->
+                                    <delegatePattern>false</delegatePattern>
+                                    <!-- 是否使用接口 -->
+                                    <interfaceOnly>true</interfaceOnly>
+                                    <skipDefaultInterface>true</skipDefaultInterface>
+                                    <useSpringBoot3>false</useSpringBoot3>
+
+                                    <java8>true</java8>
+                                    <dateLibrary>java8</dateLibrary>
+                                    <serializableModel>true</serializableModel>
+                                    <useBeanValidation>true</useBeanValidation>
+                                    <addCompileSourceRoot>true</addCompileSourceRoot>
+                                </configOptions>
+
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.6.0</version>
+                    <executions>
+                        <execution>
+                            <id>unpack-templates</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>io.github.jacksonhua</groupId>
+                                        <artifactId>whh-openapi-starter</artifactId>
+                                        <version>${whh-openapi-starter.version}</version>
+                                        <includes>mustache/*.mustache</includes>
+                                        <outputDirectory>${project.build.directory}/generated-resources
+                                        </outputDirectory>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+                    </executions>
+
+
+                </plugin>
             </plugins>
-        </pluginManagement>
+    </pluginManagement>
+    <plugins>
+        <!-- 源码包插件 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+        </plugin>
+
+        <!-- Javadoc插件 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+        </plugin>
+
+
+    </plugins>
+</build>
+        <!-- 配置profile maven中央仓库部署使用 mvn clean deploy -Psonatype -->
+<profiles>
+<profile>
+    <id>sonatype</id>
+    <build>
         <plugins>
-            <!-- 源码包插件 -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+            </plugin>
+            <!-- GPG签名插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
+                <artifactId>maven-gpg-plugin</artifactId>
             </plugin>
-
-            <!-- Javadoc插件 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-
-
         </plugins>
     </build>
-    <!-- 配置profile maven中央仓库部署使用 mvn clean deploy -Psonatype -->
-    <profiles>
-        <profile>
-            <id>sonatype</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.sonatype.central</groupId>
-                        <artifactId>central-publishing-maven-plugin</artifactId>
-                    </plugin>
-                    <!-- GPG签名插件 -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-</project>
+</profile>
+</profiles>
+        </project>

@@ -21,15 +21,28 @@
 <dependency>
     <groupId>io.github.jacksonhua</groupId>
     <artifactId>whh-openapi-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
 </dependency>
-<!-- 添加 OpenAPI Generator 插件 -->
+
 <build>
 <plugins>
-    <plugin>
-        <groupId>org.openapitools</groupId>
-        <artifactId>openapi-generator-maven-plugin</artifactId>
-    </plugin>
+   <!-- 添加 Build Helper 插件 把生成的代码设置为 generate-resource-root -->
+   <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>build-helper-maven-plugin</artifactId>
+   </plugin>
+   <!-- 添加 OpenAPI Generator 插件 -->
+   <plugin>
+      <groupId>org.openapitools</groupId>
+      <artifactId>openapi-generator-maven-plugin</artifactId>
+      <!-- 添加 OpenAPI Generator 插件的依赖 提供默认的 API 模板文件，如果使用默认模板文件，则不需要添加依赖-->
+      <dependencies>
+         <dependency>
+            <groupId>io.github.jacksonhua</groupId>
+            <artifactId>whh-openapi-starter</artifactId>
+            <version>${whh-starter-parent.version}</version>
+         </dependency>
+      </dependencies>
+   </plugin>
 </plugins>
 </build>
 
@@ -50,6 +63,8 @@ openapi:
   contact-url: https://www.example.com
   license-name: Apache 2.0
   license-url: https://www.apache.org/licenses/LICENSE-2.0.html
+  enabled: true # 是否启用接口文档
+  showDemo: false # 是否启用示例数据
 ```
 
 
@@ -69,18 +84,6 @@ public class UsersController implements UsersApi {
 ```
 
 
-## 配置属性
-
-| 属性 | 默认值 | 说明 |
-|------|--------|------|
-| `openapi.title` | 统一接口文档 | API 文档标题 |
-| `openapi.description` | 基于OpenAPI规范的统一接口文档 | API 文档描述 |
-| `openapi.version` | 1.0.0 | API 版本号 |
-| `openapi.contact-name` | 技术团队 | 联系人姓名 |
-| `openapi.contact-email` | tech@example.com | 联系人邮箱 |
-| `openapi.contact-url` | https://www.example.com | 联系人URL |
-| `openapi.license-name` | Apache 2.0 | 许可证名称 |
-| `openapi.license-url` | https://www.apache.org/licenses/LICENSE-2.0.html | 许可证URL |
 
 ## 生成的 API 接口
 
@@ -91,9 +94,8 @@ public class UsersController implements UsersApi {
 - `GET /users/{id}` - 获取用户详情
 - `PUT /users/{id}` - 更新用户信息
 - `DELETE /users/{id}` - 删除用户
-
-
-
+- `GET /users/{id}/export` -下载用户信息
+- `POST /users/{id}/avatar` - 上传用户信息
 
 
 ## 项目结构
@@ -117,9 +119,35 @@ src
 
 Starter 使用 `src/main/resources/openapi/api.yaml` 作为 API 规范文件，您可以根据项目需求修改此文件来定义自己的 API 接口。
 
-## 许可证
+## 生成代码模板
+生成器在工作时，会按照以下顺序寻找模板文件（比如 api.mustache）：
 
-Apache License, Version 2.0
+项目本地：templateDirectory 指定的磁盘路径。
+Classpath 用户自定义：插件 <dependencies> 里的 JAR 包中是否存在 JavaSpring/api.mustache。（当前版本使用方式）
+Classpath 内置默认：生成器 JAR 包自带的原始模板
+
+## 关于响应体的选择
+1. 默认情况下，Spring MVC 会自动将返回值封装成 ResponseEntity<T>，并设置 可以设置HTTP 状态码 (Status Code)、响应头 (Headers) 和 响应体 (Body)。
+需要使用配置：
+```xml
+<plugin>
+   <groupId>org.openapitools</groupId>
+   <artifactId>openapi-generator-maven-plugin</artifactId>
+   <executions>
+      <execution>
+         <configuration>
+            <configOptions>
+               <useResponseEntity>true</useResponseEntity>
+            </configOptions>
+         </configuration>
+      </execution>
+   </executions>
+</plugin>
+```
+2. 当前选择默认状态码200，返回类型Result<T>的返回，方便统一响应格式（当前使用方式）
+3. 不用Result<T>，可以不使用插件依赖 或在某些场景下，返回类型为Result<T>，如切面，@RestControllerAdvice等场景
+
+
 
 ## 开发者
 
@@ -183,8 +211,10 @@ ResponseEntity（稍显繁琐）： 每个接口都需要手动包装一层 Resp
 
 如果你在写面向公众的 Open API：建议严格遵循 RESTful 风格。因为外部开发者期望通过标准 HTTP 状态码（如 401 鉴权失败、429 限流）来快速判断错误类型，而不是去翻阅你自定义的几百个 code 码。
 如果你在写公司内部的前后端分离项目：“200 OK + Result<T>” 往往更高效。此时 HTTP 协议被降级为一种“传输通道”，真正的协议是你定义的 Result 对象。
-## 关于全局统一接口返回结构的思考
-1. 在api.yml中
 
-api.mustache 244行修改Void
-添加
+---
+5. 可能存在的问题
+5.1 使用ResponseEntity,统一响应结构需要在拦截器，RestControllerAdvice，全局异常处理，切面中处理
+5.2 使用了Result<T>封装，其实我的想法感觉也不太好，封装了Result<T>，那么在controller中，每个方法都需要处理封装Result，不如统一处理，在controller中，直接返回T，然后统一处理，在controller中，返回Result<T>，然后统一处理，这样，代码会更简洁。
+同时我使用了封装Page<T>,在接口文档中，也看不出来封装的效果
+5.3 推荐处理，统一处理，在controller中，返回T，然后统一处理，在controller中，返回Result<T>，然后统一处理，这样，代码会更简洁。
